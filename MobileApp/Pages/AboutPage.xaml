@@ -25,7 +25,7 @@
                    FontSize="14"
                    TextColor="{StaticResource TextMutedColor}" />
 
-            <Label Text="Date: 2024"
+            <Label Text="© Armando Costa 2024"
                    FontSize="14"
                    TextColor="{StaticResource TextMutedColor}" />
         </StackLayout>
