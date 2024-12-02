@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:appConfig="clr-namespace:MobileApp"
+             x:Class="MobileApp.Pages.LoginPage"
+             Title="Login"
+             BackgroundColor="{StaticResource BodyBgColor}">
+    <ContentPage.Content>
+
+        <Grid>
+            <!-- Main Content -->
+            <StackLayout Padding="30" Spacing="20" VerticalOptions="Center">
+                <!-- App Name -->
+                <Label
+                    Text="{Binding Source={x:Static appConfig:AppConfig.AppName}}"
+                    FontSize="36"
+                    HorizontalOptions="Center"
+                    TextColor="{StaticResource PrimaryColor}" />
+
+                <!-- Email Entry -->
+                <Entry x:Name="EmailEntry" Placeholder="Email"
+                       Keyboard="Email"
+                       TextColor="{StaticResource BodyColor}"
+                       PlaceholderColor="{StaticResource TextMutedColor}" />
+
+                <!-- Password Entry -->
+                <Entry x:Name="PasswordEntry" Placeholder="Password"
+                       IsPassword="True"
+                       TextColor="{StaticResource BodyColor}"
+                       PlaceholderColor="{StaticResource TextMutedColor}" />
+
+                <!-- Login Button -->
+                <Button x:Name="LoginButton" Text="Login"
+                        BackgroundColor="{StaticResource PrimaryColor}"
+                        TextColor="{StaticResource WhiteColor}"
+                        CornerRadius="8"
+                        Clicked="OnLoginButtonClicked"
+                        FontSize="18" />
+            </StackLayout>
+
+            <!-- Overlay with Activity Indicator -->
+            <Grid x:Name="LoadingOverlay" BackgroundColor="#80000000"
+                  IsVisible="False">
+                <Frame BackgroundColor="White" CornerRadius="10" Padding="20"
+                       HasShadow="True"
+                       VerticalOptions="Center" HorizontalOptions="Center">
+                    <ActivityIndicator x:Name="LoadingIndicator"
+                                       IsRunning="True"
+                                       Color="{StaticResource PrimaryColor}" />
+                </Frame>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

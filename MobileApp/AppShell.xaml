@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Shell
+    x:Class="MobileApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MobileApp.Pages"
+    xmlns:appConfig="clr-namespace:MobileApp"
+    Title="{Binding Source={x:Static appConfig:AppConfig.AppName}}"
+    FlyoutBehavior="Flyout"
+    FlyoutWidth="250"
+    FlyoutHeaderBehavior="CollapseOnScroll">
+
+    <Shell.FlyoutHeader>
+        <Grid BackgroundColor="{StaticResource PrimaryColor}" Padding="20">
+            <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                <Image Source="weather_logo.png" WidthRequest="40"
+                       HeightRequest="40" />
+                <StackLayout Padding="10,0,0,0">
+                    <Label
+                        Text="{Binding Source={x:Static appConfig:AppConfig.AppName}}"
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        TextColor="{StaticResource WhiteColor}" />
+                </StackLayout>
+            </StackLayout>
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <!-- Menu Options with Improved Styling -->
+    <FlyoutItem Title="Current Weather" Icon="current_weather_icon.png">
+        <ShellContent Title="Current Weather"
+                      ContentTemplate="{DataTemplate local:CurrentWeatherPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Forecast" Icon="forecast_icon.png">
+        <ShellContent Title="Forecast"
+                      ContentTemplate="{DataTemplate local:ForecastPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Search" Icon="search_icon.png">
+        <ShellContent Title="Search"
+                      ContentTemplate="{DataTemplate local:SearchPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Favorites" Icon="favorites_icon.png">
+        <ShellContent Title="Favorites"
+                      ContentTemplate="{DataTemplate local:FavoritesPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="About" Icon="about_icon.png">
+        <ShellContent Title="About"
+                      ContentTemplate="{DataTemplate local:AboutPage}" />
+    </FlyoutItem>
+
+
+    <!-- Footer Menu Items -->
+    <MenuItem Text="Logout"
+              IconImageSource="logout_icon.png"
+              Command="{Binding LogoutCommand}" />
+</Shell>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileApp.Pages.AboutPage"
+             Title="About"
+             BackgroundColor="{StaticResource BodyBgColor}">
+    <ContentPage.Content>
+        <StackLayout Padding="20" Spacing="10">
+            <Label Text="About This App"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource HeadingColor}" />
+
+            <Label
+                Text="Weather App provides real-time weather updates, forecasts, and more. Easily search and save your favorite locations for quick access."
+                FontSize="16"
+                TextColor="{StaticResource BodyColor}" />
+
+            <Label Text="Version: 1.0.0"
+                   FontSize="14"
+                   TextColor="{StaticResource TextMutedColor}" />
+
+            <Label Text="Author: Armando Costa"
+                   FontSize="14"
+                   TextColor="{StaticResource TextMutedColor}" />
+
+            <Label Text="Date: 2024"
+                   FontSize="14"
+                   TextColor="{StaticResource TextMutedColor}" />
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>
