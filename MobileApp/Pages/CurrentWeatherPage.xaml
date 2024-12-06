@@ -2,12 +2,193 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MobileApp.Pages.CurrentWeatherPage">
-    <ContentPage.Content>
-        <Label Text="Current Weather"
-               HorizontalOptions="Center"
-               VerticalOptions="CenterAndExpand"
-               FontSize="Large" />
+             x:Class="MobileApp.Pages.CurrentWeatherPage"
+             BackgroundColor="Transparent">
 
-    </ContentPage.Content>
+    <ContentPage.Background>
+        <LinearGradientBrush EndPoint="0,1">
+            <GradientStop Color="{StaticResource PrimaryColor}" Offset="0.0" />
+            <GradientStop Color="#145DA0" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid>
+        <ScrollView Padding="20">
+            <VerticalStackLayout Spacing="10" HorizontalOptions="Center"
+                                 VerticalOptions="FillAndExpand">
+                <!-- Error Message Display -->
+                <Frame CornerRadius="10"
+                       BackgroundColor="#FFCDD2"
+                       Padding="15"
+                       IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                       BorderColor="{StaticResource DangerColor}">
+                    <HorizontalStackLayout Spacing="10">
+                        <Image Source="error_icon.svg" WidthRequest="20"
+                               HeightRequest="20" />
+                        <Label Text="{Binding ErrorMessage}"
+                               FontSize="16"
+                               TextColor="{StaticResource DangerColor}"
+                               FontAttributes="Bold"
+                               LineBreakMode="WordWrap" />
+                    </HorizontalStackLayout>
+                </Frame>
+
+
+                <!-- Location, Date, and Weather Description -->
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="3">
+                    <Label Text="{Binding CurrentWeather.Name}"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="White" />
+                    <Label
+                        Text="{Binding CurrentDateTime, StringFormat='{0:MMMM dd, yyyy HH:mm}'}"
+                        FontSize="16"
+                        TextColor="White" />
+                    <Label
+                        Text="{Binding CurrentWeather.Weather[0].Description}"
+                        FontSize="16"
+                        FontAttributes="Italic"
+                        TextColor="White" />
+                </VerticalStackLayout>
+
+                <!-- Temperature and Icon -->
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="3">
+                    <Image
+                        Source="{Binding CurrentWeather.Weather[0].Icon, Converter={StaticResource WeatherIconConverter}}"
+                        HeightRequest="150" WidthRequest="150" />
+                    <Label
+                        Text="{Binding CurrentWeather.Main.Temp, StringFormat='{0}°C'}"
+                        FontSize="64"
+                        FontAttributes="Bold"
+                        TextColor="White" />
+                    <Label
+                        Text="{Binding CurrentWeather.Main.Feels_like, StringFormat='Feels like: {0}°C'}"
+                        FontSize="18"
+                        TextColor="White" />
+                </VerticalStackLayout>
+
+                <!-- Weather Details Card -->
+                <Frame CornerRadius="20" BackgroundColor="White" Padding="20"
+                       HasShadow="True" WidthRequest="350">
+                    <Grid ColumnDefinitions="*,*" RowSpacing="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Column="0" Text="Min Temp:"
+                               TextColor="#616161"
+                               FontSize="16" />
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="{Binding CurrentWeather.Main.Temp_min, StringFormat='{0}°C'}"
+                               FontSize="16" FontAttributes="Bold"
+                               TextColor="Black" />
+
+                        <Label Grid.Row="1" Grid.Column="0" Text="Max Temp:"
+                               TextColor="#616161" FontSize="16" />
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="{Binding CurrentWeather.Main.Temp_max, StringFormat='{0}°C'}"
+                               FontSize="16" FontAttributes="Bold"
+                               TextColor="Black" />
+
+                        <Label Grid.Row="2" Grid.Column="0" Text="Pressure:"
+                               TextColor="#616161" FontSize="16" />
+                        <Label Grid.Row="2" Grid.Column="1"
+                               Text="{Binding CurrentWeather.Main.Pressure, StringFormat='{0} hPa'}"
+                               FontSize="16" FontAttributes="Bold"
+                               TextColor="Black" />
+
+                        <Label Grid.Row="3" Grid.Column="0" Text="Wind Speed:"
+                               TextColor="#616161" FontSize="16" />
+                        <Label Grid.Row="3" Grid.Column="1"
+                               Text="{Binding CurrentWeather.Wind.Speed, StringFormat='{0} m/s'}"
+                               FontSize="16" FontAttributes="Bold"
+                               TextColor="Black" />
+
+                        <Label Grid.Row="4" Grid.Column="0" Text="Humidity:"
+                               TextColor="#616161" FontSize="16" />
+                        <Label Grid.Row="4" Grid.Column="1"
+                               Text="{Binding CurrentWeather.Main.Humidity, StringFormat='{0}%'}"
+                               FontSize="16" FontAttributes="Bold"
+                               TextColor="Black" />
+                    </Grid>
+                </Frame>
+                <!-- Sunrise & Sunset -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                    <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                        <Image Source="sunrise_icon.svg" HeightRequest="30"
+                               WidthRequest="30" />
+                        <Label
+                            Text="{Binding CurrentWeather.Sys.Sunrise, Converter={StaticResource UnixToTimeConverter}}"
+                            FontSize="14" FontAttributes="Bold"
+                            TextColor="{StaticResource
+                               WhiteColor}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                        <Image Source="sunset_icon.svg" HeightRequest="30"
+                               WidthRequest="30" />
+                        <Label
+                            Text="{Binding CurrentWeather.Sys.Sunset, Converter={StaticResource UnixToTimeConverter}}"
+                            FontSize="14" FontAttributes="Bold"
+                            TextColor="{StaticResource
+                               WhiteColor}" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+
+                <!-- ~1~ Sunrise and Sunset Details @1@ -->
+                <!-- <Frame CornerRadius="15" BackgroundColor="White" Padding="20" -->
+                <!--        HasShadow="True" WidthRequest="350"> -->
+                <!--     <VerticalStackLayout Spacing="10"> -->
+                <!--         <HorizontalStackLayout Spacing="10"> -->
+                <!--             <Image Source="sunrise_icon.png" HeightRequest="30" -->
+                <!--                    WidthRequest="30" /> -->
+                <!--             <Label -->
+                <!--                 Text="{Binding CurrentWeather.Sys.Sunrise, Converter={StaticResource UnixToTimeConverter}, StringFormat='Sunrise: {0}'}" -->
+                <!--                 FontSize="16" TextColor="Black" /> -->
+                <!--         </HorizontalStackLayout> -->
+                <!--         <HorizontalStackLayout Spacing="10"> -->
+                <!--             <Image Source="sunset_icon.svg" HeightRequest="30" -->
+                <!--                    WidthRequest="30" /> -->
+                <!--             <Label -->
+                <!--                 Text="{Binding CurrentWeather.Sys.Sunset, Converter={StaticResource UnixToTimeConverter}, StringFormat='Sunset: {0}'}" -->
+                <!--                 FontSize="16" TextColor="Black" /> -->
+                <!--         </HorizontalStackLayout> -->
+                <!--     </VerticalStackLayout> -->
+                <!-- </Frame> -->
+
+                <!-- Last Updated & Refresh Button -->
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="10"
+                                     Margin="0,20,0,0">
+                    <Label Text="{Binding LastUpdatedText}" FontSize="14"
+                           TextColor="White" FontAttributes="Italic" />
+                    <Button Text="Refresh"
+                            Command="{Binding RefreshWeatherCommand}"
+                            FontSize="18"
+                            BackgroundColor="#4A90E2" TextColor="White"
+                            CornerRadius="25" WidthRequest="150" />
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+
+        <!-- Transparent Loader Overlay -->
+        <Grid BackgroundColor="{StaticResource PrimaryDark}" Opacity="0.4"
+              IsVisible="{Binding
+        IsLoading}" />
+
+        <!-- Loader Spinner in Center -->
+        <ActivityIndicator
+            IsRunning="{Binding IsLoading}"
+            IsVisible="{Binding IsLoading}"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Color="White"
+            WidthRequest="50"
+            HeightRequest="50" />
+    </Grid>
 </ContentPage>

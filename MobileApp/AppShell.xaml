@@ -9,12 +9,40 @@
     Title="{Binding Source={x:Static appConfig:AppConfig.AppName}}"
     FlyoutBehavior="Flyout"
     FlyoutWidth="250"
-    FlyoutHeaderBehavior="CollapseOnScroll">
+    FlyoutHeaderBehavior="CollapseOnScroll"
+    BackgroundColor="{StaticResource PrimaryColor}"
+    Shell.TitleColor="{StaticResource WhiteColor}"
+    NavBarIsVisible="True">
+
+    <Shell.Resources>
+        <!-- Style for Flyout Items -->
+        <Style TargetType="Label" x:Key="FlyoutItemLabelStyle">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontAttributes" Value="Bold" />
+        </Style>
+
+        <!-- DataTemplate for Flyout Items -->
+        <DataTemplate x:Key="FlyoutItemTemplate">
+            <Grid Padding="10"
+                  BackgroundColor="{StaticResource SecondaryColor}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding Icon}" WidthRequest="30"
+                       HeightRequest="30" VerticalOptions="Center" />
+                <Label Text="{Binding Title}" Grid.Column="1"
+                       VerticalOptions="Center"
+                       Style="{StaticResource FlyoutItemLabelStyle}"
+                       TextColor="{StaticResource WhiteColor}" />
+            </Grid>
+        </DataTemplate>
+    </Shell.Resources>
 
     <Shell.FlyoutHeader>
         <Grid BackgroundColor="{StaticResource PrimaryColor}" Padding="20">
             <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                <Image Source="weather_logo.png" WidthRequest="40"
+                <Image Source="default_weather_icon.png" WidthRequest="40"
                        HeightRequest="40" />
                 <StackLayout Padding="10,0,0,0">
                     <Label
@@ -26,36 +54,4 @@
             </StackLayout>
         </Grid>
     </Shell.FlyoutHeader>
-
-    <!-- Menu Options with Improved Styling -->
-    <FlyoutItem Title="Current Weather" Icon="current_weather_icon.png">
-        <ShellContent Title="Current Weather"
-                      ContentTemplate="{DataTemplate local:CurrentWeatherPage}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="Forecast" Icon="forecast_icon.png">
-        <ShellContent Title="Forecast"
-                      ContentTemplate="{DataTemplate local:ForecastPage}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="Search" Icon="search_icon.png">
-        <ShellContent Title="Search"
-                      ContentTemplate="{DataTemplate local:SearchPage}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="Favorites" Icon="favorites_icon.png">
-        <ShellContent Title="Favorites"
-                      ContentTemplate="{DataTemplate local:FavoritesPage}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="About" Icon="about_icon.png">
-        <ShellContent Title="About"
-                      ContentTemplate="{DataTemplate local:AboutPage}" />
-    </FlyoutItem>
-
-
-    <!-- Footer Menu Items -->
-    <MenuItem Text="Logout"
-              IconImageSource="logout_icon.png"
-              Command="{Binding LogoutCommand}" />
 </Shell>

@@ -1,15 +1,18 @@
 using MobileApp.Services;
+using MobileApp.ViewModels;
 
 namespace MobileApp.Pages;
 
 public partial class LoginPage : ContentPage
 {
     private readonly ApiService _apiService;
+    private readonly CurrentWeatherViewModel _viewModel;
 
-    public LoginPage(ApiService apiService)
+    public LoginPage(ApiService apiService, CurrentWeatherViewModel viewModel)
     {
         InitializeComponent();
         _apiService = apiService;
+        _viewModel = viewModel;
     }
 
     private async void OnLoginButtonClicked(object sender, EventArgs e)
@@ -37,7 +40,7 @@ public partial class LoginPage : ContentPage
                 // Set AppShell as the main page after successful login
                 if (Application.Current is App app)
                 {
-                    app.MainPage = new AppShell(_apiService);
+                    app.MainPage = new AppShell(_apiService, _viewModel);
                 }
                 else
                 {

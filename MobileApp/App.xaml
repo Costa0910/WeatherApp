@@ -2,7 +2,7 @@
 
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:MobileApp"
+             xmlns:converters="clr-namespace:MobileApp.Converters"
              x:Class="MobileApp.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -47,77 +47,18 @@
                 <Setter Property="FontSize" Value="16" />
             </Style>
 
-            <!-- Frame Style -->
-            <!-- <Color x:Key="BorderColor">#E0E0E0</Color> -->
             <Style TargetType="Frame">
                 <Setter Property="CornerRadius" Value="15" />
                 <Setter Property="Padding" Value="15" />
                 <Setter Property="Margin" Value="5,10" />
                 <Setter Property="HasShadow" Value="True" />
             </Style>
-            <!-- -->
-            <!-- <Style TargetType="ShellItem"> -->
-            <!--     ~1~ <Setter Property="FlyoutItemBackgroundColor" @1@ -->
-            <!--     ~1~         Value="{StaticResource DarkColor}" /> @1@ -->
-            <!--     ~1~ <Setter Property="FlyoutItemForegroundColor" @1@ -->
-            <!--     ~1~         Value="{StaticResource BodyColor}" /> @1@ -->
-            <!--     ~1~ <Setter Property="FlyoutItemSelectedBackgroundColor" @1@ -->
-            <!--     ~1~         Value="{StaticResource PrimaryColor}" /> @1@ -->
-            <!--     ~1~ <Setter Property="FlyoutItemSelectedForegroundColor" @1@ -->
-            <!--     ~1~         Value="{StaticResource WhiteColor}" /> @1@ -->
-            <!--     ~1~ <Setter Property="FlyoutItemFontAttributes" Value="Bold" /> @1@ -->
-            <!--     ~1~ <Setter Property="FlyoutItemMargin" Value="10,0,10,10" /> @1@ -->
-            <!--     <Setter Property="CurrentItem" -->
-            <!--             Value="{StaticResource -->
-            <!--         PrimaryColor}"> -->
-            <!--     </Setter> -->
-            <!-- </Style> -->
 
-            <!-- <Style TargetType="FlyoutItem"> -->
-            <!--     <VisualStateManager.VisualStateGroups> -->
-            <!--         <VisualStateGroup Name="StateGroup"> -->
-            <!--             <VisualState Name="Normal"> -->
-            <!--                 <VisualState.Setters> -->
-            <!--                     ~1~ <Setter Property="Style" @1@ -->
-            <!--                     ~1~         Value="{StaticResource DarkColor}" /> @1@ -->
-            <!--                     ~1~ <Setter Property="TextColor" @1@ -->
-            <!--                     ~1~         Value="{StaticResource BodyColor}" /> @1@ -->
-            <!--                 </VisualState.Setters> -->
-            <!--             </VisualState> -->
-            <!--             <VisualState Name="Selected"> -->
-            <!--                 <VisualState.Setters> -->
-            <!--                     ~1~ <Setter Property="BackgroundColor" @1@ -->
-            <!--                     ~1~         Value="{StaticResource PrimaryColor}" /> @1@ -->
-            <!--                     ~1~ <Setter Property="TextColor" @1@ -->
-            <!--                     ~1~         Value="{StaticResource WhiteColor}" /> @1@ -->
-            <!--                 </VisualState.Setters> -->
-            <!--             </VisualState> -->
-            <!--         </VisualStateGroup> -->
-            <!--     </VisualStateManager.VisualStateGroups> -->
-            <!-- </Style> -->
-
-            <!-- <Style TargetType="FlyoutItem"> -->
-            <!--     <Setter Property="VisualStateManager.VisualStateGroups"> -->
-            <!--         <VisualStateGroupList> -->
-            <!--             <VisualStateGroup Name="StateGroup"> -->
-            <!--                 <VisualState Name="Normal"> -->
-            <!--                     <VisualState.Setters> -->
-            <!--                         ~1~ <Setter Property="Style" Value="{StaticResource DarkColor}" /> @1@ -->
-            <!--                         ~1~ <Setter Property="TextColor" Value="{StaticResource BodyColor}" /> @1@ -->
-            <!--                     </VisualState.Setters> -->
-            <!--                 </VisualState> -->
-            <!--                 <VisualState Name="Selected"> -->
-            <!--                     <VisualState.Setters> -->
-            <!--                         ~1~ <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" /> @1@ -->
-            <!--                         ~1~ <Setter Property="TextColor" Value="{StaticResource WhiteColor}" /> @1@ -->
-            <!--                     </VisualState.Setters> -->
-            <!--                 </VisualState> -->
-            <!--             </VisualStateGroup> -->
-            <!--         </VisualStateGroupList> -->
-            <!--     </Setter> -->
-            <!-- </Style> -->
-
-
+            <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter" />
+            <converters:StringEmptyConverter x:Key="StringEmptyConverter" />
+            <converters:WeatherIconConverter x:Key="WeatherIconConverter" />
+            <converters:UnixToTimeConverter x:Key="UnixToTimeConverter" />
+            <converters:MetersToKmConverter x:Key="MetersToKmConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

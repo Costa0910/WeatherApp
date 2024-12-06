@@ -17,6 +17,30 @@ public class ApiService(
         PropertyNameCaseInsensitive = true
     };
 
+    public async Task<ApiResponse<WeatherModel>> GetWeatherAsync(string url)
+    {
+        try
+        {
+            var (data, errorMessage) = await GetAsync<WeatherModel>(url);
+
+            if (errorMessage != null)
+            {
+                return new ApiResponse<WeatherModel>
+                {
+                    ErrorMessage = errorMessage
+                };
+            }
+
+            return new ApiResponse<WeatherModel> { Data = data };
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex,
+                $"Error sending HTTP request: {ex.Message}");
+            return new ApiResponse<WeatherModel> { ErrorMessage = ex.Message };
+        }
+    }
+
 
     public async Task<ApiResponse<bool>> Login(string email,
         string password)
@@ -166,6 +190,8 @@ public class ApiService(
         {
             uri += $"?APPID={token}";
         }
+
+        uri += "&units=metric"; // Use metric units(Celsius)
 
         return uri;
     }

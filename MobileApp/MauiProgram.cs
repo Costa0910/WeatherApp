@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using MobileApp.Services;
+using MobileApp.ViewModels;
 
 namespace MobileApp;
 
@@ -23,6 +24,7 @@ public static class MauiProgram
         // Add services
         builder.Services.AddSingleton<HttpClient>();
         builder.Services.AddSingleton<ApiService>();
+        builder.Services.AddSingleton<CurrentWeatherViewModel>();
 
         return builder.Build();
     }
