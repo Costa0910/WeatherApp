@@ -2,9 +2,7 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MobileApp.Pages.CurrentWeatherPage"
-             BackgroundColor="Transparent">
-
+             x:Class="MobileApp.Pages.CityWeatherPage">
     <ContentPage.Background>
         <LinearGradientBrush EndPoint="0,1">
             <GradientStop Color="{StaticResource PrimaryColor}" Offset="0.0" />
@@ -22,7 +20,7 @@
                        Padding="15"
                        IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
                        BorderColor="{StaticResource DangerColor}">
-                    <HorizontalStackLayout Spacing="10">
+                    <VerticalStackLayout Spacing="10">
                         <Image Source="error_icon.svg" WidthRequest="20"
                                HeightRequest="20" />
                         <Label Text="{Binding ErrorMessage}"
@@ -30,7 +28,7 @@
                                TextColor="{StaticResource DangerColor}"
                                FontAttributes="Bold"
                                LineBreakMode="WordWrap" />
-                    </HorizontalStackLayout>
+                    </VerticalStackLayout>
                 </Frame>
 
 
@@ -40,10 +38,23 @@
                            FontSize="28"
                            FontAttributes="Bold"
                            TextColor="White" />
-                    <Label
-                        Text="{Binding CurrentDateTime, StringFormat='{0:MMMM dd, yyyy}'}"
-                        FontSize="16"
-                        TextColor="White" />
+                    <HorizontalStackLayout Spacing="3">
+                        <Image Source="location_icon.svg" WidthRequest="20"
+                               HeightRequest="20" />
+                        <Label
+                            Text="{Binding ModelData.Sys.Country}"
+                            FontSize="16"
+                            TextColor="White" />
+                    </HorizontalStackLayout>
+                    <Label FontSize="16" TextColor="White">
+                        <Label.Text>
+                            <MultiBinding Converter="{StaticResource DateTimeMultiConverter}">
+                                <Binding Path="ModelData.Dt" />
+                                <Binding Path="ModelData.Timezone" />
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
+
                     <Label
                         Text="{Binding ModelData.Weather[0].Description}"
                         FontSize="16"

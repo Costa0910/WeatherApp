@@ -17,27 +17,27 @@ public class ApiService(
         PropertyNameCaseInsensitive = true
     };
 
-    public async Task<ApiResponse<WeatherModel>> GetWeatherAsync(string url)
+    public async Task<ApiResponse<T>> GetWeatherAsync<T>(string url)
     {
         try
         {
-            var (data, errorMessage) = await GetAsync<WeatherModel>(url);
+            var (data, errorMessage) = await GetAsync<T>(url);
 
             if (errorMessage != null)
             {
-                return new ApiResponse<WeatherModel>
+                return new ApiResponse<T>
                 {
                     ErrorMessage = errorMessage
                 };
             }
 
-            return new ApiResponse<WeatherModel> { Data = data };
+            return new ApiResponse<T> { Data = data };
         }
         catch (Exception ex)
         {
             logger.LogError(ex,
                 $"Error sending HTTP request: {ex.Message}");
-            return new ApiResponse<WeatherModel> { ErrorMessage = ex.Message };
+            return new ApiResponse<T> { ErrorMessage = ex.Message };
         }
     }
 

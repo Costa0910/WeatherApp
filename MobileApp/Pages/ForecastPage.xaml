@@ -2,12 +2,201 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MobileApp.Pages.ForecastPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Forecast Page" FontSize="Large"
-                   HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
-        </StackLayout>
+             x:Class="MobileApp.Pages.ForecastPage"
+             BackgroundColor="Transparent">
+    <ContentPage.Background>
+        <LinearGradientBrush EndPoint="0,1">
+            <GradientStop Color="{StaticResource PrimaryColor}" Offset="0.0" />
+            <GradientStop Color="#145DA0" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    <Grid>
+        <ScrollView Padding="20">
+            <VerticalStackLayout Spacing="15" HorizontalOptions="Center"
+                                 VerticalOptions="FillAndExpand">
+                <!-- Error Message Display -->
+                <Frame CornerRadius="10"
+                       BackgroundColor="#FFCDD2"
+                       Padding="15"
+                       IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                       BorderColor="{StaticResource DangerColor}">
+                    <HorizontalStackLayout Spacing="10">
+                        <Image Source="error_icon.svg" WidthRequest="20"
+                               HeightRequest="20" />
+                        <Label Text="{Binding ErrorMessage}"
+                               FontSize="16"
+                               TextColor="{StaticResource DangerColor}"
+                               FontAttributes="Bold"
+                               LineBreakMode="WordWrap" />
+                    </HorizontalStackLayout>
+                </Frame>
 
-    </ContentPage.Content>
+                <!-- City Information -->
+                <Frame CornerRadius="15" Padding="20" Margin="0,5"
+                       BackgroundColor="{StaticResource PageBackgroundColor}">
+                    <VerticalStackLayout>
+                        <Label Text="{Binding ModelData.City.Name}"
+                               FontSize="Large"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource PrimaryTextColor}"
+                               HorizontalTextAlignment="Center" />
+                        <Label Text="{Binding ModelData.City.Country}"
+                               FontSize="Medium"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource SecondaryColor}" />
+                        <HorizontalStackLayout HorizontalOptions="Center"
+                                               Spacing="10" Margin="0,10,0,0">
+                            <VerticalStackLayout Spacing="5"
+                                                 HorizontalOptions="Center">
+                                <Image Source="sunrise_icon.svg"
+                                       HeightRequest="30" WidthRequest="30" />
+                                <Label
+                                    Text="{Binding ModelData.City.Sunrise, Converter={StaticResource UnixToTimeConverter}}"
+                                    FontSize="14" FontAttributes="Bold"
+                                    TextColor="{StaticResource PrimaryTextColor}" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Spacing="5"
+                                                 HorizontalOptions="Center">
+                                <Image Source="sunset_icon.svg"
+                                       HeightRequest="30" WidthRequest="30" />
+                                <Label
+                                    Text="{Binding ModelData.City.Sunset, Converter={StaticResource UnixToTimeConverter}}"
+                                    FontSize="14" FontAttributes="Bold"
+                                    TextColor="{StaticResource PrimaryTextColor}" />
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Forecast Information -->
+                <Label Text="Weather Forecast"
+                       FontSize="Medium"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource WhiteColor}"
+                       HorizontalOptions="Start"
+                       Margin="0,10,0,5" />
+
+                <CollectionView ItemsSource="{Binding ModelData.List}"
+                                Margin="0,0,0,10">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame CornerRadius="12" Padding="15" Margin="0,5"
+                                   BackgroundColor="{StaticResource PageBackgroundColor}">
+                                <VerticalStackLayout Spacing="10">
+                                    <!-- Date & Time -->
+                                    <Label
+                                        Text="{Binding Dt_txt,
+                                    Converter={StaticResource StringDateFormatterConverter}}"
+                                        FontSize="Small"
+                                        FontAttributes="Bold"
+                                        TextColor="{StaticResource SecondaryTextColor}" />
+
+                                    <!-- Weather Description -->
+                                    <Label
+                                        Text="{Binding Weather[0].Description, StringFormat='{0}'}"
+                                        FontSize="Medium"
+                                        FontAttributes="Bold"
+                                        TextColor="{StaticResource PrimaryTextColor}" />
+
+                                    <!-- Temperature Information -->
+                                    <HorizontalStackLayout Spacing="20">
+                                        <VerticalStackLayout>
+                                            <Label Text="Temperature"
+                                                   FontSize="Small"
+                                                   TextColor="{StaticResource SecondaryTextColor}" />
+                                            <Label
+                                                Text="{Binding Main.Temp, StringFormat='{0}°C'}"
+                                                FontSize="Medium"
+                                                FontAttributes="Bold"
+                                                TextColor="{StaticResource
+                                                PrimaryColor}" />
+                                        </VerticalStackLayout>
+                                        <VerticalStackLayout>
+                                            <Label Text="Feels Like"
+                                                   FontSize="Small"
+                                                   TextColor="{StaticResource SecondaryTextColor}" />
+                                            <Label
+                                                Text="{Binding Main.Feels_like, StringFormat='{0}°C'}"
+                                                FontSize="Medium"
+                                                FontAttributes="Bold" />
+                                        </VerticalStackLayout>
+                                        <VerticalStackLayout>
+                                            <Label Text="Humidity"
+                                                   FontSize="Small"
+                                                   TextColor="{StaticResource SecondaryTextColor}" />
+                                            <Label
+                                                Text="{Binding Main.Humidity, StringFormat='{0}%'}"
+                                                FontSize="Medium"
+                                                FontAttributes="Bold" />
+                                        </VerticalStackLayout>
+                                    </HorizontalStackLayout>
+
+                                    <!-- Wind and Cloud Details -->
+                                    <HorizontalStackLayout Spacing="20"
+                                        Margin="0,5,0,0">
+                                        <VerticalStackLayout>
+                                            <Label Text="Wind Speed"
+                                                   FontSize="Small"
+                                                   TextColor="{StaticResource SecondaryTextColor}" />
+                                            <Label
+                                                Text="{Binding Wind.Speed, StringFormat='{0} m/s'}"
+                                                FontSize="Medium"
+                                                FontAttributes="Bold" />
+                                        </VerticalStackLayout>
+                                        <VerticalStackLayout>
+                                            <Label Text="Cloudiness"
+                                                   FontSize="Small"
+                                                   TextColor="{StaticResource PrimaryTextColor}" />
+                                            <Label
+                                                Text="{Binding Clouds.All, StringFormat='{0}%'}"
+                                                FontSize="Medium"
+                                                FontAttributes="Bold" />
+                                        </VerticalStackLayout>
+                                        <VerticalStackLayout>
+                                            <Label Text="Pressure"
+                                                   FontSize="Small"
+                                                   TextColor="{StaticResource SecondaryTextColor}" />
+                                            <Label
+                                                Text="{Binding Main.Pressure, StringFormat='{0} hPa'}"
+                                                FontSize="Medium"
+                                                FontAttributes="Bold" />
+                                        </VerticalStackLayout>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Last Updated & Refresh Button -->
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="10"
+                                     Margin="0,20,0,0">
+                    <Label Text="{Binding LastUpdatedText}" FontSize="14"
+                           TextColor="White" FontAttributes="Italic" />
+                    <Button Text="Refresh"
+                            Command="{Binding RefreshWeatherCommand}"
+                            FontSize="18"
+                            BackgroundColor="#4A90E2"
+                            TextColor="{StaticResource WhiteColor}"
+                            CornerRadius="25" WidthRequest="150" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Transparent Loader Overlay -->
+        <Grid BackgroundColor="{StaticResource PrimaryDark}" Opacity="0.4"
+              IsVisible="{Binding
+        IsLoading}" />
+
+        <!-- Loader Spinner in Center -->
+        <ActivityIndicator
+            IsRunning="{Binding IsLoading}"
+            IsVisible="{Binding IsLoading}"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Color="{StaticResource PrimaryColor}"
+            WidthRequest="50"
+            HeightRequest="50" />
+    </Grid>
 </ContentPage>

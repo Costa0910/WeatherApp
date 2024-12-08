@@ -1,17 +1,19 @@
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using MobileApp.Models;
 using MobileApp.Services;
 
 namespace MobileApp.ViewModels;
 
-public class CurrentWeatherViewModel : BaseViewModel<WeatherModel>
+public class ForecastViewModel : BaseViewModel<WeatherForecastModel>
 {
-    public CurrentWeatherViewModel(ApiService service)
+
+    public ForecastViewModel(ApiService service)
     {
         _service = service;
         RefreshWeatherCommand
             = new Command(async () => await FetchWeatherAsync(true));
     }
-
     protected override async Task FetchWeatherAsync(bool isManualRefresh)
     {
         IsLoading = true;
@@ -32,13 +34,13 @@ public class CurrentWeatherViewModel : BaseViewModel<WeatherModel>
                     "Unable to get location. Please enable location services.");
             }
 
-            var url = $"data/2.5/weather?lat={lat}&lon={lon}";
-            var response = await _service.GetWeatherAsync<WeatherModel>(url);
+            var url = $"data/2.5/forecast?lat={lat}&lon={lon}&cnt=7";
+            var response = await _service.GetWeatherAsync<WeatherForecastModel>(url);
 
             if (response.HasError || response.Data == null)
             {
                 throw new Exception(response.ErrorMessage ??
-                                    "Failed to fetch weather data.");
+                                    "Failed to fetch forecast weather data.");
             }
 
             // Update data and timestamp

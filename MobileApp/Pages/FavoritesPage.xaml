@@ -1,12 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MobileApp.Pages.FavoritesPage">
+             x:Class="MobileApp.Pages.FavoritesPage"
+             Title="Favorites">
+
     <ContentPage.Content>
-        <Label Text="Favorites"
-               FontSize="24"
-               HorizontalOptions="Center"
-               VerticalOptions="CenterAndExpand" />
+        <Grid>
+            <!-- Loader -->
+            <ActivityIndicator
+                x:Name="Loader"
+                IsRunning="True"
+                IsVisible="True"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
+
+            <!-- CollectionView -->
+            <CollectionView x:Name="FavoritesCollection"
+                            IsVisible="False"
+                            ItemsSource="{Binding Favorites}"
+                            SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="2" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="5" Padding="10"
+                               CornerRadius="15"
+                               BackgroundColor="White"
+                               BorderColor="#DADADA">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Name}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="Black"
+                                       VerticalOptions="Center" />
+                                <Label Text="{Binding Country}"
+                                       FontSize="14"
+                                       TextColor="Gray" />
+                                <Label Text="{Binding Lat, StringFormat='Latitude: {0:F2}'}"
+                                       FontSize="12" TextColor="Gray" />
+                                <Label Text="{Binding Lon, StringFormat='Longitude: {0:F2}'}"
+                                       FontSize="12" TextColor="Gray" />
+
+                                <!-- Horizontal Buttons -->
+                                <HorizontalStackLayout Spacing="10" VerticalOptions="End">
+                                    <!-- See More Button -->
+                                    <ImageButton
+                                        Source="see_more_icon.svg"
+                                        HeightRequest="24"
+                                        WidthRequest="24"
+                                        BackgroundColor="Transparent"
+                                        CommandParameter="{Binding .}"
+                                        Clicked="SeeMoreClicked" />
+
+                                    <!-- Remove Button -->
+                                    <ImageButton
+                                        Source="favorite_filled_icon.svg"
+                                        HeightRequest="24"
+                                        WidthRequest="24"
+                                        BackgroundColor="Transparent"
+                                        CommandParameter="{Binding .}"
+                                        Clicked="OnRemoveClicked" />
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

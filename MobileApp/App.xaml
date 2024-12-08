@@ -27,6 +27,9 @@
             <Color x:Key="TextMutedColor">#a7acb2</Color>
             <Color x:Key="BorderColor">#e4e6e8</Color>
             <Color x:Key="DisabledColor">#BFBFBF</Color>
+            <Color x:Key="PageBackgroundColor">#f5f5f9</Color>
+            <Color x:Key="PrimaryTextColor">#384551</Color>
+            <Color x:Key="SecondaryTextColor">#646E78</Color>
 
 
             <!-- Button Style -->
@@ -59,6 +62,10 @@
             <converters:WeatherIconConverter x:Key="WeatherIconConverter" />
             <converters:UnixToTimeConverter x:Key="UnixToTimeConverter" />
             <converters:MetersToKmConverter x:Key="MetersToKmConverter" />
+            <converters:StringDateFormatterConverter
+                x:Key="StringDateFormatterConverter" />
+            <converters:BoolToImageConverter x:Key="BoolToImageConverter" />
+            <converters:DateTimeMultiConverter x:Key="DateTimeMultiConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

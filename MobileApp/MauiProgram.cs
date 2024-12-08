@@ -24,7 +24,10 @@ public static class MauiProgram
         // Add services
         builder.Services.AddSingleton<HttpClient>();
         builder.Services.AddSingleton<ApiService>();
+        builder.Services.AddSingleton<FavoriteService>();
         builder.Services.AddSingleton<CurrentWeatherViewModel>();
+        builder.Services.AddSingleton<ForecastViewModel>();
+        builder.Services.AddSingleton<CityWeatherViewModel>();
 
         return builder.Build();
     }

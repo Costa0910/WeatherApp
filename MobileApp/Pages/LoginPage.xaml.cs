@@ -7,12 +7,17 @@ public partial class LoginPage : ContentPage
 {
     private readonly ApiService _apiService;
     private readonly CurrentWeatherViewModel _viewModel;
+    private readonly ForecastViewModel _forecastViewModel;
+    private readonly FavoriteService _favoriteService;
 
-    public LoginPage(ApiService apiService, CurrentWeatherViewModel viewModel)
+    public LoginPage(ApiService apiService, CurrentWeatherViewModel
+            viewModel, ForecastViewModel forecastViewModel, FavoriteService favoriteService)
     {
         InitializeComponent();
         _apiService = apiService;
         _viewModel = viewModel;
+        _forecastViewModel = forecastViewModel;
+        _favoriteService = favoriteService;
     }
 
     private async void OnLoginButtonClicked(object sender, EventArgs e)
@@ -40,7 +45,8 @@ public partial class LoginPage : ContentPage
                 // Set AppShell as the main page after successful login
                 if (Application.Current is App app)
                 {
-                    app.MainPage = new AppShell(_apiService, _viewModel);
+                    app.MainPage = new AppShell(_apiService, _viewModel,
+                        _forecastViewModel, _favoriteService);
                 }
                 else
                 {

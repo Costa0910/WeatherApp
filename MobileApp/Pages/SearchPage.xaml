@@ -2,11 +2,65 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MobileApp.Pages.SearchPage">
+             x:Class="MobileApp.Pages.SearchPage"
+             BackgroundColor="White"
+             Title="Search">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Search Page" FontSize="Large" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
-        </StackLayout>
+        <VerticalStackLayout Padding="20" Spacing="15">
 
+            <!-- Search Field -->
+            <Entry x:Name="SearchEntry"
+                   Placeholder="Type at least 3 chars of city name..."
+                   ReturnType="Search"
+                   TextChanged="OnSearchTextChanged"
+                   Completed="OnSearchCompleted"
+                   Keyboard="Default"
+                   Margin="0,0,0,10" />
+
+            <!-- Loading Indicator -->
+            <ActivityIndicator x:Name="LoadingIndicator"
+                               IsRunning="False"
+                               IsVisible="False"
+                               Color="{StaticResource PrimaryDark}" />
+
+            <!-- No city found -->
+            <Label x:Name="NoResultsLabel"
+                   Text="No results found."
+                   HorizontalOptions="Center"
+                   IsVisible="False"
+                   FontSize="16"
+                   TextColor="Gray" />
+            <!-- Search Results -->
+            <CollectionView x:Name="ResultsCollectionView"
+                            IsVisible="False"
+                            SelectionMode="Single"
+                            SelectionChanged="OnItemSelected">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="10" ColumnDefinitions="*,Auto"
+                              RowDefinitions="Auto">
+                            <!-- Name and Country -->
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Name}" FontSize="16"
+                                       FontAttributes="Bold" TextColor="Black" />
+                                <Label Text="{Binding Country}" FontSize="14"
+                                       TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <!-- Favorite Star -->
+                            <ImageButton Grid.Column="1"
+                                         x:Name="FavoriteButton"
+                                         Source="{Binding IsFavorite,
+                                         Converter={StaticResource BoolToImageConverter}}"
+                                         CommandParameter="{Binding .}"
+                                         Clicked="OnFavoriteClicked"
+                                         BackgroundColor="Transparent"
+                                         HeightRequest="24"
+                                         WidthRequest="24" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
     </ContentPage.Content>
 </ContentPage>

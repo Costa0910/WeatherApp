@@ -3,9 +3,18 @@ using MobileApp.Services;
 
 namespace MobileApp.ViewModels;
 
-public class CurrentWeatherViewModel : BaseViewModel<WeatherModel>
+public class CityWeatherViewModel : BaseViewModel<WeatherModel>
 {
-    public CurrentWeatherViewModel(ApiService service)
+    public double?
+        Latitude
+    {
+        get;
+        set;
+    } // Data to be given by CityWeatherPage behind the code
+
+    public double? Longitude { get; set; }
+
+    public CityWeatherViewModel(ApiService service)
     {
         _service = service;
         RefreshWeatherCommand
@@ -25,14 +34,13 @@ public class CurrentWeatherViewModel : BaseViewModel<WeatherModel>
                 return;
             }
 
-            var (lat, lon) = await GetUserLocationAsync();
-            if (lat == null || lon == null)
+            if (Longitude == null || Latitude == null)
             {
                 throw new Exception(
                     "Unable to get location. Please enable location services.");
             }
 
-            var url = $"data/2.5/weather?lat={lat}&lon={lon}";
+            var url = $"data/2.5/weather?lat={Latitude}&lon={Longitude}";
             var response = await _service.GetWeatherAsync<WeatherModel>(url);
 
             if (response.HasError || response.Data == null)
